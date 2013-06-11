@@ -259,38 +259,75 @@ Done.
 
 				<section>
 				  <h2>Define remote hosts</h2>
-				  <ul>
-				    <li>ブラウザ意識せず書ける</li>
-				    <li>ノードが生成されるのでデバッグしやすい</li>
-				    <li>そこそこjQueryライク</li>
-				  </ul>
+				  <p>command line agument</p>
+					<pre><code contenteditable>
+# globally
+$ fab remotetime -H ec2-user@ec2-XX.ap-northeast-1.compute.amazonaws.com
+# per task
+$ fab remotetime:hosts="ec2-user@ec2-XX.ap-northeast-1.compute.amazonaws.com"
+</code></pre>
+				  <p>global definition on fabfile</p>
+					<pre><code contenteditable>
+from fabric.api import env
+
+env.hosts = ['ec2-user@ec2-XX.ap-northeast-1.compute.amazonaws.com']
+</code></pre>				  
+
+				  <p>per task definition on fabfile</p>
+					<pre><code contenteditable>
+from fabric.api import task,run,hosts
+
+@hosts('ec2-user@ec2-XX.ap-northeast-1.compute.amazonaws.com')
+@task
+def remotetime():
+	run("date")
+</code></pre>
 				</section>
+
+            	<section>
+				  <h2>Simplify host definition</h2>
+				  <p>prepare ssh config</p>
+					<pre><code contenteditable>
+# saved as ssh.config
+Host web01
+  User ec2-user
+  HostName ec2-XX.ap-northeast-1.compute.amazonaws.com						
+</code></pre>
+<p class="note">Available options are limited compared to actual ssh, see <a href="http://docs.fabfile.org/en/1.6/usage/execution.html#leveraging-native-ssh-config-files">details</a></p>
+				<p>enable ssh config loading</p>
+					<pre><code contenteditable>
+from fabric.api import task,local,run,hosts,env
+
+env.use_ssh_config = True
+env.ssh_config_path = 'ssh.config'
+</code></pre>
+				<p>execute with shortened name</p>
+					<pre><code contenteditable>
+$ fab remotetime -H web01						
+</code></pre>				
+				</section>				
 			</section>
 
 				<section>
 				  <h2>Work with boto</h2>
+				  <p>integrate with AWS API like</p>
 				  <ul>
-				    <li>ほどほどの抽象化レベル (path 周りとか)</li>
-				    <li>VML遅い...</li>
-				    <li>FFだとSVGちょい遅い...</li>
+				    <li>Start/Stop instances</li>
+				    <li>Attach/Detach EBS</li>
+				    <li>Create/Delete Snapshot</li>
 				  </ul>
 				</section>
 
 				<section>
 				  <h2>Demo</h2>
-				  <ul>
-				    <li>ほどほどの抽象化レベル (path 周りとか)</li>
-				    <li>VML遅い...</li>
-				    <li>FFだとSVGちょい遅い...</li>
-				  </ul>
 				</section>				
 
 				<section>
-					<h2>参考リンク</h2>
+					<h2>References</h2>
 					<ul>
-						<li><a href="http://fabfile.org/">本家</a></li>
-						<li><a href="http://fabfile.org/">boto</a></li>						
-						<li><a href="https://github.com/tksmd/kyotojs01">今日のプレゼン</a></li>
+						<li><a href="http://fabfile.org/">fabric</a></li>
+						<li><a href="https://github.com/boto/boto">boto</a></li>
+						<li><a href="http://tksmd.github.io/jawsug-kyoto04/">Today's presentation slides</a></li>
 					</ul>
 				</section>
 

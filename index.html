@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="ja">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Getting Started with Fabric</title>
+
+		<meta name="author" content="SOMEDA Takashi">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/simple.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h2 style="padding-bottom:200px;">Getting Started with Fabric</h2>
+					<h3>JAWS-UG Kyoto #4</h3>
+					<p style='padding-top:20px;'>
+					  <small>12th June 2013</small><br/>
+					  <small>by SOMEDA Takashi</small>
+					  <small>(<a href='http://d.hatena.ne.jp/tksmd'>id:tksmd</a> / <a href="http://twitter.com/tksmd">@tksmd</a>)</small>
+					</p>
+				</section>
+
+				<section>
+				  <section>
+				    <h2>Work</h2>
+				    <ul>
+				      <li>working at <a href='http://nulab-inc.com/'>Nulab, Inc</a></li>
+				      <li class="fragment shrink">server and software engineer of <a href='http://backlogtool.com/'>Backlog</a> and <a href='http://cacoo.com/'>Cacoo</a></li>
+				      <li class="fragment fade-in"><span class="fragment grow">evangelist</span> of Nulab,Inc</li>				      
+				    </ul>
+				  </section>
+
+				  <section>
+				    <h2>Community</h2>
+				    <ul>
+				      <li><a href='http://jawsug-kyoto.g.hatena.ne.jp/'>JAWS-UG Kyoto Branch</a></li>
+				      <li><a href='http://kanjava.com'>Kansai Java Engeneer no kai</a></li>
+				    </ul>
+				  </section>
+				</section>
+
+				<section>
+				  <section>
+				    <h2>Fabric</h2>
+				    <ul>
+				      <li><a href='http://fabfile.org/'>fabfile.org</a></li>
+				      <li>written in Python (Python 2.5 or higher)</li>
+				      <li>Simple framework for 
+				      	<ul>
+				      		<li>application deployment</li>
+				      		<li>systems administration tasks</li>
+				      	</ul>
+				      </li>
+				      <li>Latest version is 1.6.1</li>
+				    </ul>
+				  </section>
+				  <section>
+				    <h2>Example</h2>
+				    <p>fabfile.py</p>
+					<pre><code data-trim contenteditable>
+from fabric.api import local
+
+def whoami():
+    local("who am i")
+					</code></pre>
+				    <p>Execute!</p>
+					<pre><code data-trim contenteditable>
+$ fab whoami
+[localhost] local: who am i
+someda   ttys000  Jun 11 23:30 
+
+Done.
+					</code></pre>					
+				  </section>
+				  <section>
+				    <h2>Feature</h2>
+				    <ul>
+				      <li>simple</li>
+				      <li>small (few dependencies)</li>
+				      <li>installation <span style="font-size:1.2em;">NOT</span> required on server</li>
+				    </ul>
+				  </section>
+				  <section>
+				    <h2>Similar Tools</h2>
+				    <ul>
+				      <li class="fragment shrink"><a href="https://github.com/capistrano/capistrano">Capistrano</a></li>
+				      <li class="fragment shrink"><a href="http://www.opscode.com/chef/">Chef</a></li>
+				      <li class="fragment grow"><a href="https://github.com/kentaro/cinnamon">Cinnamon</a>
+				      	<ul>
+				      		<li class="fragment fade-in">about Cinnamon, see <a href="http://d.hatena.ne.jp/naoya/20130118/1358477523" target="_blank">this entry</a>
+				      		</li>
+				      	</ul>
+
+				      </li>				      
+				    </ul>
+
+
+				  </section>
+				</section>
+
+				<section>
+				  <section>
+				    <h2>How we use</h2>
+				    <p>Application deployment/Continuous Delivery</p>
+				    <img src='https://cacoo.com/diagrams/jWUx2NzA587z1Sif-D780C.png' height="400px">
+				  </section>
+				</section>
+
+				<section>
+				  <h2>Why we choose it</h2>
+				  <ul>
+				    <li>Easy to start</li>
+				    <li>Easy migration from shell script</li>
+				    <li>Easy integration with <a href="https://github.com/boto/boto" target="_blank">boto</a></li>
+				    <li class="fragment">We love Python.</li>
+				  </ul>
+				</section>
+
+				<section>
+				  <section>
+				    <h2>Before to start</h2>
+				    <p>Are you familier with Python?</p>
+				    <p style="margin:20px 0;padding:8px;background:#eee;font-size:0.8em;">Note : Amazon Linux AMI release 2013.03 premised from here</p>    
+
+				    <ul class="fragment">
+				    	<li>Yes &rarr;</li>
+				    	<li>No &darr;</li>
+				    </ul>
+				  </section>
+				  <section>
+				    <h2>Install Python</h2>
+				    <p>Setup <a href="https://github.com/yyuu/pyenv">pyenv</a> beforehand</p>
+					<pre><code data-trim contenteditable>
+$ cd
+$ git clone git://github.com/yyuu/pyenv.git .pyenv
+$ echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.bash_profile
+$ echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
+</code></pre>
+				<p>reload shell and install Python</p>
+					<pre><code data-trim contenteditable>
+$ pyenv install 2.7.5
+$ pyenv rehash
+$ pyenv global 2.7.5
+$ pyenv versions
+</code></pre>
+				  </section>
+				  <section>
+				    <h2>Troubleshooting</h2>
+				    <p>Build tools</p>
+					<pre><code data-trim contenteditable>
+$ sudo yum install gcc make patch -y
+$ sudo yum install subversion git -y
+</code></pre>
+				    <p>Prerequisites</p>
+					<pre><code data-trim contenteditable>
+$ sudo yum install readline-devel-y
+$ sudo yum install sqlite-devel -y
+$ sudo yum install zlib-devel bzip2-devel -y
+$ sudo yum install openssl-devel -y
+</code></pre>
+				  </section>
+				</section>
+
+				<section>
+				  <section>
+				    <h2>Install Fabric</h2>
+					<pre><code contenteditable>
+$ pip install fabric
+$ pyenv rehash
+$ which fab
+</code></pre>
+					<p>to upgrade</p>
+					<pre><code contenteditable>					
+$ pip install --upgrade fabric					
+$ fab -V
+Fabric 1.6.1
+Paramiko 1.10.1
+</code></pre>
+			  </section>
+				</section>
+
+				<section>
+				  <section>
+				    <h2>Basics</h2>
+				    <p>Create fabfile.py and add some tasks</p>
+					<pre><code contenteditable>
+circle.click(function(){
+  this.animate({transform:'T-140,0', fill:'#fff'},200,'linear');
+});
+					</code></pre>
+				  </section>
+				  <section>
+				  	<h2>Basics(Cont)</h2>
+				    <p>Create fabfile directory and create some modules under it</p>
+				    <div id="demo3"></div>
+				    <button id="demo3go">えい！</button>
+				  </section>
+				</section>
+
+            			<section>
+				  <h2>デモ - がっちゃんこ</h2>
+				  <div id="demo4"></div>
+				  <button id="demo4go">えい！</button>
+				</section>
+
+				<section>
+				  <h2>良かったこと</h2>
+				  <ul>
+				    <li>ブラウザ意識せず書ける</li>
+				    <li>ノードが生成されるのでデバッグしやすい</li>
+				    <li>そこそこjQueryライク</li>
+				  </ul>
+				</section>
+
+				<section>
+				  <h2>残念だったこと</h2>
+				  <ul>
+				    <li>ほどほどの抽象化レベル (path 周りとか)</li>
+				    <li>VML遅い...</li>
+				    <li>FFだとSVGちょい遅い...</li>
+				  </ul>
+				</section>
+
+				<section>
+					<h2>参考リンク</h2>
+					<ul>
+						<li><a href="http://raphaeljs.com/">本家</a></li>
+						<li><a href="http://www.w3.org/TR/SVG/">W3C SVG</a></li>
+						<li><a href="http://g.raphaeljs.com/">gRaphaël</a></li>
+						<li><a href="https://github.com/tksmd/kyotojs01">今日のプレゼン</a></li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>Thanks!</h1>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+		<script src="lib/jquery-1.8.2.min.js"></script>
+		<script type="js/jawsug.js"></script>
+		
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

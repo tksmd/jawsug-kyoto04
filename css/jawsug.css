@@ -1,0 +1,20 @@
+p.note {
+	margin:20px 0;
+	padding:8px;
+	background:#eee;
+	font-size:0.8em;	
+}
+
+dl.command{
+	text-align:left;
+	padding-top:20px;
+}
+
+dl.command dd{
+}
+
+dl.command dt{
+	padding-left : 40px;
+	padding-bottom : 12px;
+
+}

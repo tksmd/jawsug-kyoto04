@@ -13,6 +13,7 @@
 
 		<link rel="stylesheet" href="css/reveal.min.css">
 		<link rel="stylesheet" href="css/theme/simple.css" id="theme">
+		<link rel="stylesheet" href="css/jawsug.css">		
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -50,7 +51,7 @@
 				    <ul>
 				      <li>working at <a href='http://nulab-inc.com/'>Nulab, Inc</a></li>
 				      <li class="fragment shrink">server and software engineer of <a href='http://backlogtool.com/'>Backlog</a> and <a href='http://cacoo.com/'>Cacoo</a></li>
-				      <li class="fragment fade-in"><span class="fragment grow">evangelist</span> of Nulab,Inc</li>				      
+				      <li class="fragment fade-in">evangelist of Nulab,Inc</li>				      
 				    </ul>
 				  </section>
 
@@ -82,8 +83,9 @@
 				    <h2>Example</h2>
 				    <p>fabfile.py</p>
 					<pre><code data-trim contenteditable>
-from fabric.api import local
+from fabric.api import task,local
 
+@task
 def whoami():
     local("who am i")
 					</code></pre>
@@ -111,13 +113,11 @@ Done.
 				      <li class="fragment shrink"><a href="http://www.opscode.com/chef/">Chef</a></li>
 				      <li class="fragment grow"><a href="https://github.com/kentaro/cinnamon">Cinnamon</a>
 				      	<ul>
-				      		<li class="fragment fade-in">about Cinnamon, see <a href="http://d.hatena.ne.jp/naoya/20130118/1358477523" target="_blank">this entry</a>
+				      		<li class="fragment fade-in">about Cinnamon, see <a href="http://d.hatena.ne.jp/naoya/20130118/1358477523" target="_blank">this post</a>
 				      		</li>
 				      	</ul>
-
 				      </li>				      
 				    </ul>
-
 
 				  </section>
 				</section>
@@ -144,7 +144,7 @@ Done.
 				  <section>
 				    <h2>Before to start</h2>
 				    <p>Are you familier with Python?</p>
-				    <p style="margin:20px 0;padding:8px;background:#eee;font-size:0.8em;">Note : Amazon Linux AMI release 2013.03 premised from here</p>    
+				    <p class="note">Amazon Linux AMI release 2013.03 premised from here</p>    
 
 				    <ul class="fragment">
 				    	<li>Yes &rarr;</li>
@@ -205,39 +205,70 @@ Paramiko 1.10.1
 
 				<section>
 				  <section>
-				    <h2>Basics</h2>
-				    <p>Create fabfile.py and add some tasks</p>
+				    <h2>Define Tasks</h2>
+				    <p>Create fabfile.py and add tasks</p>
 					<pre><code contenteditable>
-circle.click(function(){
-  this.animate({transform:'T-140,0', fill:'#fff'},200,'linear');
-});
-					</code></pre>
+from fabric.api import task,local,run
+
+@task
+def localtime():
+	local("date")
+
+@task
+def remotetime():
+	run("date")
+
+def private():
+	print("private method")
+</code></pre>
+					<p class="note">use <a href="http://docs.fabfile.org/en/1.6/usage/tasks.html#new-style-tasks">new style task</a> to distinguish tasks and other private functions clearly</p>
 				  </section>
 				  <section>
-				  	<h2>Basics(Cont)</h2>
-				    <p>Create fabfile directory and create some modules under it</p>
-				    <div id="demo3"></div>
-				    <button id="demo3go">えい！</button>
+				  	<h2>Execute Task</h2>
+				    <p>List your tasks on fabfile.py</p>
+					<pre><code contenteditable>
+$ fab -l
+Available commands:
+
+    localtime
+    remotetime
+</code></pre>				    
+					<p>Execute specified task by passing its name as argument to fab</p>
+					<pre><code contenteditable>
+$ fab localtime
+[localhost] local: date
+2013年 6月12日 水曜日 03時50分53秒 JST
+
+Done.
+
+</code></pre>					
 				  </section>
 				</section>
 
-            			<section>
-				  <h2>デモ - がっちゃんこ</h2>
-				  <div id="demo4"></div>
-				  <button id="demo4go">えい！</button>
+
+			<section>
+            	<section>
+				  <h2>Run Command</h2>
+				  <p>only 3 methods to run command</p>
+				  <dl class="command">
+				  	<dd>execute on remote host</dd><dt><pre><code content editable>run("uname -a")</code></pre></dt>
+				  	<dd>execute on remote host with sudo</dd><dt><pre><code content editable>sudo("/etc/init.d/httpd graceful")</code></pre></dt>
+				  	<dd>execute on local</dd><dt><pre><code content editable>local("ls -la")</code></pre></dt>
+				  </dl>
 				</section>
 
 				<section>
-				  <h2>良かったこと</h2>
+				  <h2>Define remote hosts</h2>
 				  <ul>
 				    <li>ブラウザ意識せず書ける</li>
 				    <li>ノードが生成されるのでデバッグしやすい</li>
 				    <li>そこそこjQueryライク</li>
 				  </ul>
 				</section>
+			</section>
 
 				<section>
-				  <h2>残念だったこと</h2>
+				  <h2>Work with boto</h2>
 				  <ul>
 				    <li>ほどほどの抽象化レベル (path 周りとか)</li>
 				    <li>VML遅い...</li>
@@ -246,11 +277,19 @@ circle.click(function(){
 				</section>
 
 				<section>
+				  <h2>Demo</h2>
+				  <ul>
+				    <li>ほどほどの抽象化レベル (path 周りとか)</li>
+				    <li>VML遅い...</li>
+				    <li>FFだとSVGちょい遅い...</li>
+				  </ul>
+				</section>				
+
+				<section>
 					<h2>参考リンク</h2>
 					<ul>
-						<li><a href="http://raphaeljs.com/">本家</a></li>
-						<li><a href="http://www.w3.org/TR/SVG/">W3C SVG</a></li>
-						<li><a href="http://g.raphaeljs.com/">gRaphaël</a></li>
+						<li><a href="http://fabfile.org/">本家</a></li>
+						<li><a href="http://fabfile.org/">boto</a></li>						
 						<li><a href="https://github.com/tksmd/kyotojs01">今日のプレゼン</a></li>
 					</ul>
 				</section>

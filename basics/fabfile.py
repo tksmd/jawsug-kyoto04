@@ -1,4 +1,12 @@
-from fabric.api import local
+from fabric.api import task,local,run
 
-def whoami():
-    local("who am i")
+@task
+def localtime():
+	local("date")
+
+@task
+def remotetime():
+	run("date")
+
+def private():
+	print("private method")
